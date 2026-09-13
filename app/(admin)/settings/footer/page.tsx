@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Save } from "lucide-react";
+import { Save, ExternalLink } from "lucide-react";
 
 export default function FooterPage() {
   const [loading, setLoading] = useState(true);
@@ -18,6 +18,7 @@ export default function FooterPage() {
     linkedinUrl: "",
     youtubeUrl: "",
     instagramUrl: "",
+    newsletterUrl: "",
   });
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function FooterPage() {
             linkedinUrl: data.linkedinUrl || "",
             youtubeUrl: data.youtubeUrl || "",
             instagramUrl: data.instagramUrl || "",
+            newsletterUrl: data.newsletterUrl || data.newsletter_url || data.newsletter || "",
           });
         }
       } catch (err: any) {
@@ -50,10 +52,14 @@ export default function FooterPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await setDoc(doc(db, "site_settings", "footer"), {
-        ...formData,
-        updatedAt: Date.now()
-      });
+      await setDoc(
+        doc(db, "site_settings", "footer"),
+        {
+          ...formData,
+          updatedAt: Date.now(),
+        },
+        { merge: true }
+      );
       alert("Footer details saved successfully!");
     } catch (err: any) {
       alert("Failed to save: " + err.message);
@@ -116,12 +122,48 @@ export default function FooterPage() {
               </div>
             </div>
 
+            <div className="pb-4 border-b border-gray-100">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4">Newsletter</h3>
+              <div>
+                <label htmlFor="footer-newsletter-url" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">
+                  Newsletter URL
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    id="footer-newsletter-url"
+                    type="url"
+                    className="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-3 border"
+                    placeholder="https://..."
+                    value={formData.newsletterUrl}
+                    onChange={(e) => setFormData({ ...formData, newsletterUrl: e.target.value })}
+                  />
+                  {formData.newsletterUrl && (
+                    <a
+                      id="footer-newsletter-preview"
+                      href={formData.newsletterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-colors shrink-0"
+                      title="Open URL in new tab"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      Test Link
+                    </a>
+                  )}
+                </div>
+                <p className="mt-1.5 text-xs text-gray-400">
+                  Direct URL to your newsletter, subscription page, or publication document stored in Firestore (<code className="text-slate-600 font-mono">site_settings</code>).
+                </p>
+              </div>
+            </div>
+
             <div className="pb-2">
               <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4">Social Media Links</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Facebook</label>
+                  <label htmlFor="footer-facebook-url" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Facebook</label>
                   <input
+                    id="footer-facebook-url"
                     type="url"
                     className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-3 border"
                     value={formData.facebookUrl}
@@ -129,8 +171,9 @@ export default function FooterPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">LinkedIn</label>
+                  <label htmlFor="footer-linkedin-url" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">LinkedIn</label>
                   <input
+                    id="footer-linkedin-url"
                     type="url"
                     className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-3 border"
                     value={formData.linkedinUrl}
@@ -138,8 +181,9 @@ export default function FooterPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">YouTube</label>
+                  <label htmlFor="footer-youtube-url" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">YouTube</label>
                   <input
+                    id="footer-youtube-url"
                     type="url"
                     className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-3 border"
                     value={formData.youtubeUrl}
@@ -147,8 +191,9 @@ export default function FooterPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Instagram</label>
+                  <label htmlFor="footer-instagram-url" className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Instagram</label>
                   <input
+                    id="footer-instagram-url"
                     type="url"
                     className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-3 border"
                     value={formData.instagramUrl}
@@ -160,6 +205,7 @@ export default function FooterPage() {
 
             <div className="pt-4 flex justify-end">
               <button
+                id="btn-save-footer"
                 type="submit"
                 disabled={saving}
                 className="inline-flex items-center gap-2 bg-blue-600 px-6 py-2.5 rounded-lg text-sm font-bold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
