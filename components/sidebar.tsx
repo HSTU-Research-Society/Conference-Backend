@@ -44,10 +44,10 @@ const navigation = [
   {
     name: "Content",
     items: [
-      { name: "Blog", href: "/content/blog", icon: LayoutTemplate },
+      { name: "Proceedings", href: "/content/proceedings", icon: LayoutTemplate },
       { name: "Gallery", href: "/content/gallery", icon: ImageIcon },
-      { name: "Magazine", href: "/content/magazine", icon: BookOpen },
-      { name: "Resources", href: "/content/resources", icon: FolderOpen },
+      { name: "Book", href: "/content/book", icon: BookOpen },
+      { name: "Templates", href: "/content/templates", icon: FolderOpen },
     ],
   },
   {

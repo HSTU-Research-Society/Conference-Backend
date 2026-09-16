@@ -73,11 +73,11 @@ export default function DashboardPage() {
         </div>
 
         <div className="bg-white/55 backdrop-blur-[24px] p-6 rounded-[28px] border border-white/35 shadow-[0_10px_40px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(15,23,42,0.16)] transition-all">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Blogs</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Proceedings & Papers</p>
           <h3 className="text-4xl font-black text-[#0F172A]">
             {blogCount === null ? "..." : blogCount === 0 ? "Empty" : blogCount}
           </h3>
-          <p className="text-xs text-slate-500 mt-2 font-medium">Published Posts</p>
+          <p className="text-xs text-slate-500 mt-2 font-medium">Published Articles</p>
         </div>
 
         <div className="bg-white/55 backdrop-blur-[24px] p-6 rounded-[28px] border border-white/35 shadow-[0_10px_40px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(15,23,42,0.16)] transition-all">
