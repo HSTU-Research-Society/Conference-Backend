@@ -24,7 +24,8 @@ import {
   Home,
   Scale,
   ShieldCheck,
-  Handshake
+  Handshake,
+  CalendarCheck
 } from "lucide-react";
 
 const navigation = [
@@ -33,8 +34,8 @@ const navigation = [
     name: "About",
     items: [
       { name: "Leadership", href: "/about/leadership", icon: Users },
-      { name: "Constitution", href: "/about/constitution", icon: FileText },
-      { name: "History", href: "/about/history", icon: History },
+      { name: "Tracks & Scope", href: "/about/tracks", icon: FileText },
+      { name: "CFP", href: "/about/cfp", icon: History },
       { name: "Terms of Service", href: "/about/terms", icon: Scale },
       { name: "Privacy Policy", href: "/about/privacy", icon: ShieldCheck },
       { name: "Partners", href: "/about/partners", icon: Handshake },
@@ -52,6 +53,7 @@ const navigation = [
   {
     name: "Event",
     items: [
+      { name: "Deadlines", href: "/event/deadlines", icon: CalendarCheck },
       { name: "Log", href: "/event/log", icon: Calendar },
       { name: "Notice", href: "/event/notice", icon: Bell },
     ],
@@ -86,7 +88,7 @@ export function Sidebar() {
       <div className="p-6 shrink-0 pt-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 bg-[#F59E0B] rounded-[14px] flex items-center justify-center font-bold text-base text-white shadow-[0_10px_30px_rgba(245,158,11,0.25)]">RS</div>
-          <h1 className="font-montserrat font-bold text-xl tracking-tight text-[#0F172A]">HSTU RS Admin</h1>
+          <h1 id="sidebar-app-title" className="font-montserrat font-bold text-xl tracking-tight text-[#0F172A]">Conference Backend</h1>
         </div>
       </div>
 

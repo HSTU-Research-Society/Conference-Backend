@@ -7,6 +7,7 @@ export default function DashboardPage() {
   const [memberCount, setMemberCount] = useState<number | null>(null);
   const [blogCount, setBlogCount] = useState<number | null>(null);
   const [noticeCount, setNoticeCount] = useState<number | null>(null);
+  const [milestoneCount, setMilestoneCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,6 +21,13 @@ export default function DashboardPage() {
 
         const noticesSnap = await getCountFromServer(collection(db, "notices"));
         setNoticeCount(noticesSnap.data().count);
+
+        try {
+          const milestonesSnap = await getCountFromServer(collection(db, "milestones"));
+          setMilestoneCount(milestonesSnap.data().count);
+        } catch {
+          // ignore
+        }
       } catch (err: any) {
         console.error("Error fetching stats:", err);
         setError(err.message || "Failed to load database stats. Check permissions.");
@@ -47,13 +55,21 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 shrink-0">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5 shrink-0">
         <div className="bg-white/55 backdrop-blur-[24px] p-6 rounded-[28px] border border-white/35 shadow-[0_10px_40px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(15,23,42,0.16)] transition-all">
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Members</p>
           <h3 className="text-4xl font-black text-[#0F172A]">
             {memberCount === null ? "..." : memberCount === 0 ? "Empty" : memberCount}
           </h3>
           <p className="text-xs text-slate-500 mt-2 font-medium">In Leadership Directory</p>
+        </div>
+
+        <div className="bg-white/55 backdrop-blur-[24px] p-6 rounded-[28px] border border-white/35 shadow-[0_10px_40px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(15,23,42,0.16)] transition-all">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Deadlines</p>
+          <h3 className="text-4xl font-black text-[#0F172A]">
+            {milestoneCount === null ? "..." : milestoneCount === 0 ? "Empty" : milestoneCount}
+          </h3>
+          <p className="text-xs text-slate-500 mt-2 font-medium">Conference Milestones</p>
         </div>
 
         <div className="bg-white/55 backdrop-blur-[24px] p-6 rounded-[28px] border border-white/35 shadow-[0_10px_40px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(15,23,42,0.16)] transition-all">

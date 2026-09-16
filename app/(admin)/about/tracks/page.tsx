@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Save } from "lucide-react";
 
-export default function HistoryPage() {
+export default function ConstitutionPage() {
   const [contentMarkdown, setContentMarkdown] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -14,7 +14,7 @@ export default function HistoryPage() {
   useEffect(() => {
     async function fetchContent() {
       try {
-        const docRef = doc(db, "pages_static", "history");
+        const docRef = doc(db, "pages_static", "constitution");
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setContentMarkdown(docSnap.data().contentMarkdown || "");
@@ -31,11 +31,11 @@ export default function HistoryPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await setDoc(doc(db, "pages_static", "history"), {
+      await setDoc(doc(db, "pages_static", "constitution"), {
         contentMarkdown,
         updatedAt: Date.now()
       });
-      alert("History saved successfully!");
+      alert("Constitution saved successfully!");
     } catch (err: any) {
       alert("Failed to save: " + err.message);
     } finally {
@@ -46,7 +46,7 @@ export default function HistoryPage() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col items-center shrink-0 mb-2">
-        <h2 className="text-xl font-bold text-slate-900">History</h2>
+        <h2 className="text-xl font-bold text-slate-900">Tracks and Scope</h2>
       </div>
 
       {error && (
@@ -62,7 +62,7 @@ export default function HistoryPage() {
           <>
             <textarea
               className="flex-1 w-full resize-none outline-none border border-gray-200 rounded-lg p-4 font-mono text-sm"
-              placeholder="Write history in Markdown format..."
+              placeholder="Write constitution in Markdown format..."
               value={contentMarkdown}
               onChange={(e) => setContentMarkdown(e.target.value)}
             />
